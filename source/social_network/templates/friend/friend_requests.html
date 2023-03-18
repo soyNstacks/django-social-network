@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %} 
+z
+{% block content %}
+ 
+<div class="friend-requests-page container-fluid">
+    <h3 class="my-3">Friend Requests</h3>
+    </br>
+  
+    {% if not received_requests %}
+    <div class="row justify-content-center">
+        <p><strong>No friend request received.</strong></p>
+    </div>
+    {% else %}
+    <p><strong>Pending Requests</strong></p>
+    {% for friend_request in received_requests %}
+    <div class="mb-4 row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 mb-20 border-bottom">
+            <div class="row text-left" style="padding: 20px 10px 20px 10px;">
+                <div class="col-md-5"> 
+                    <img src="{{ friend_request.from_user.profile.profile_picture.url }}" alt="Profile image" class="rounded-circle img-fluid border-dark shadow-sm" style="width:7rem;height:7rem;"/>
+                </div>
+                <div class="col-md-5"> 
+                    <a href="{% url 'account:profile' friend_request.from_user.username %}" style="text-decoration: none">
+                        <p class="mb-2" style="font-size: 1.2em;">{{ friend_request.from_user.username }}</p>
+                    </a>
+                    <p>{{ friend_request.from_user.first_name }} {{ friend_request.from_user.last_name }}</p>
+                    <span class="text-left text-muted mb-4" style="font-size: 0.9em;">{{friend_request.timestamp}}</span>
+                </div>
+                <div class="col text-right mt-3">                         
+                    {% if request_status == 2 %}
+                        <div class="float-right">
+                            <button class="btn btn-primary btn-sm" onclick='acceptFriendRequest("{{friend_request.id}}", acceptanceURl, csrftoken)'>Accept</button>
+                            <button class="btn btn-danger btn-sm mx-3" onclick='rejectFriendRequest("{{friend_request.id}}", rejectionURl, csrftoken)'>Decline</button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% if sent_requests %}
+    <p class="mt-4"><strong>Sent Requests</strong></p>
+    {% for friend_request in sent_requests %}
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 mb-20 border-bottom">
+            <div class="row text-left" style="padding: 20px 10px 20px 10px;">
+                <div class="col-md-5"> 
+                    <img src="{{ friend_request.to_user.profile.profile_picture.url }}" alt="Profile image" class="rounded-circle img-fluid border-dark shadow-sm" style="width:7rem;height:7rem;"/>
+                </div>
+                <div class="col-md-5"> 
+                    <a href="{% url 'account:profile' friend_request.to_user.username %}" style="text-decoration: none">
+                        <p class="mb-4" style="font-size: 1.2em;">{{ friend_request.to_user.username }}</p>
+                    </a>
+                    <p class="mb-4">{{ friend_request.to_user.profile.first_name }} {{ friend_request.to_user.profile.last_name }}</p>
+                    <span class="text-left text-muted">{{friend_request.timestamp}}</span>
+                </div>
+                <div class="col-md-5"> 
+                {% if request_status == 1 %}
+                    <div class="d-flex">
+                        <button  class="btn btn-danger btn-sm" onclick='cancelFriendRequest("{{friend_request.id}}", cancellationURl, csrftoken)'>Cancel Friend Request</button>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+
+</div>
+
+<script>
+    var sendRequestURl = "{% url 'friend:send_friend_request' %}";
+    var acceptanceURl = "{% url 'friend:accept_friend_request' %}";
+    var rejectionURl = "{% url 'friend:reject_friend_request' %}";
+    var cancellationURl = "{% url 'friend:cancel_friend_request' %}";
+
+    var csrftoken = "{{ csrf_token }}";
+</script>
+    
+<script src="{% static 'scripts/friend/friendRequest.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="post-update-page container-fluid">
+    <form method="post" action="{% url 'post_update' post.pk %}" style="display: inline;">
+        {% csrf_token %}
+        <span class="w-100">{{ form.body_text | as_crispy_field }}</span> 
+        
+        {% if form.errors or form.non_field_errors %}
+            {{ form | as_crispy_errors }}
+        {% endif %}
+        <button type="submit" class="float-right btn btn-outline-success btn-custom-xs">Update</button>
+    </form>
+</div>
+{% endblock %}

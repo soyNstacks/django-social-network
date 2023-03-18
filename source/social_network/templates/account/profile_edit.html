@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div id="edit-profile-page" class="container">
+        <h3>Edit Your Profile Information</h3> 
+
+        {% if registered %}
+        <strong>Thank you for signing up!</strong>
+        {% else %}
+        <strong>Sign up to connect with your friends! </strong><br />
+        <br>
+
+        <form id="user_form" method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% if user_form.errors or add_form.errors or user_form.non_field_errors or add_form.non_field_errors %}
+        {{ add_form | as_crispy_errors }}
+        <div class="alert alert-danger error-container">
+        <p>Please check the signup form and try again.</p>
+        </div>
+        {% endif %}
+        
+        {{ user_form.first_name | as_crispy_field }}
+        {{ user_form.last_name | as_crispy_field }}
+        {{ add_form.date_of_birth | as_crispy_field }}
+
+        {{ user_form.username | as_crispy_field }}
+        {{ user_form.email | as_crispy_field }}
+        {{ add_form.profile_picture | as_crispy_field }}
+            
+            <input type="submit" class="btn btn-primary" name="submit" value="Confirm" />
+            <input type="reset" class="btn btn-outline-danger" name="reset" value="Reset" />
+        
+        </form>
+        {% endif %}
+
+    </br>
+</div>
+{% endblock %}
+
+
+

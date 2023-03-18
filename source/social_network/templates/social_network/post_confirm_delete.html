@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container-fluid text-center">
+    <form method="post">
+        {% csrf_token %}
+        <br>
+        <h3>Are you sure you want to delete the post?</h3><br>
+        <input class="btn btn-lg btn-danger" type="submit" value="Confirm">
+        <a class="btn btn-lg btn-info" href="{% url 'home' %}">Cancel</a>
+    </form>
+</div>
+
+{% endblock content %}

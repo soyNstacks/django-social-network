@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div id="register-page" class="container">
+    <div class="mt-1 mb-4">
+        <h3 class="mt-1">New here?</h3> 
+        <p><strong>Sign up to connect with your friends or 
+            <a href="{% url 'social-oauth:begin' 'google-oauth2' %}">Sign up with Google</a>
+        </strong></p>
+    </div>
+    {% if not user.is_authenticated %}
+        <form id="user_form" method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% if user_form.errors or add_form.errors or user_form.non_field_errors or add_form.non_field_errors %}
+            {{ user_form | as_crispy_errors }}
+            {{ add_form | as_crispy_errors }}
+            <div class="alert alert-danger error-container">
+                <p>Please check the signup form and try again.</p>
+            </div>
+        {% endif %}
+        
+        {{ user_form.first_name | as_crispy_field }}
+        {{ user_form.last_name | as_crispy_field }}
+        {{ user_form.email | as_crispy_field }}
+        {{ add_form.date_of_birth | as_crispy_field }}
+
+        {{ user_form.username | as_crispy_field }}
+        {{ user_form.password1 | as_crispy_field }}
+        {{ user_form.password2 | as_crispy_field }}
+        {{ add_form.profile_picture | as_crispy_field }}
+                 
+        <input type="submit" class="mt-4 btn btn-primary" name="submit" value="Register" />
+        <input type="reset" class="mt-4 btn btn-outline-danger" name="reset" value="Reset" />
+        
+        </form>
+    {% endif %}
+
+    </br>
+</div>
+
+{% endblock %}
+
+
+

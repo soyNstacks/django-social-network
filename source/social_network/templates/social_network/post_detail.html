@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block content %}
+  
+<div class="container-fluid mt-4 mb-5 ml-5 mr-5">
+    <div class="row text-left">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'images/return-page.png' %}" style="height: 50px;"/>
+        </a> 
+    </div>
+    <div class="row px-4">
+        <div class="col-lg-8 col-md-10 col-sm-10">
+            <div class="post-col w-100 h-100 ">
+                {% include "social_network/post_base.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,43 @@
+<div class="d-flex p-3 border-bottom mt-2 mb-2">
+    <div class="post-base card h-100 w-100">
+        <div class="d-flex w-100">
+            <div class="card-body border-bottom pb-2">
+                {% if post.media_url %}
+                    {% if post.media_type == 'image' %}
+                    <div class="mb-2 d-flex justify-content-center align-items-center">
+                        <a href="{% url 'post_detail' post.pk %}">
+                            <img src="{{ post.media_url  }}" alt="Post media" class="mx-auto d-block img-fluid card-img-top rounded"/>  
+                        </a>  
+                    </div>
+                    {% else %}
+                    <div class="mb-3 embed-responsive embed-responsive-16by9">
+                        <video class="embed-responsive-item" controls>
+                            <source src="{{ post.media_url  }}" alt="Post media" type="video/mp4">
+                        </video>
+                    </div>
+                    <a class="float-right" href="{% url 'post_detail' post.pk %}">View video</a>
+                    {% endif %}
+                {% endif %}
+
+                <a href="{% url 'account:profile' user.username %}">
+                    <h6 class="">
+                        <span class="font-weight-bold">@{{ post.author }}</span>
+                    </h6>
+                </a>
+                <p class="text-body mb-4">{{ post.body_text }}</p>
+                
+                <div class="mt-2">
+                    <p class="card-footer small text-muted" style="line-height: 1.2;">{{ post.created_date }}</p>
+                </div>
+                
+                {% if request.user.is_authenticated and request.user == post.author %}
+                <div class="button-group row d-flex justify-content-center text-center">
+                    <a href="{% url 'post_delete' post.pk %}" class="col mr-2 mr-2 mb-2 delete-post-btn btn btn-sm btn-danger">Delete</a>
+                    <a href="{% url 'post_update' post.pk %}" class="col mr-2 mr-2 mb-2 update-post-btn btn btn-sm btn-success">Edit</a>
+                </div>
+                    {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>

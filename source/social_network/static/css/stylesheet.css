@@ -1,0 +1,153 @@
+body {
+    background-color: #f7f9fb;
+    font-family: 'Catamaran', sans-serif;
+}
+
+#landing-page {
+    font-family: 'Lilita One', cursive;
+    font-weight: bold;
+    background-color: #f7f9fb;
+	font-size: 14px;
+}
+
+#landing-page .brand {
+    background-color:black;
+	width: 200px;
+	height: 200px;
+	overflow: hidden;
+	margin: 30px auto;
+    border-radius: 50%;
+	position: relative;
+	z-index: 1;
+    display: flex;
+    align-items: center;
+}
+
+#landing-page .brand img {
+	width: 100%;
+}
+
+#landing-page .btn a {
+    text-decoration: none;
+    color: white;
+}
+
+#landing-page .card-wrapper {
+	width: 400px;
+}
+
+#landing-page .card {
+	border-color: transparent;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+}
+
+#landing-page .card.fat {
+	padding: 10px;
+}
+
+#landing-page .card .card-title {
+	margin-bottom: 30px;
+}
+
+#landing-page .btn.btn-block {
+    padding: 12px 10px;
+}
+
+@media screen and (max-width: 425px) {
+	#landing-page .card-wrapper {
+		width: 90%;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	#landing-page .card.fat {
+		padding: 0;
+	}
+
+	#landing-page .card.fat .card-body {
+		padding: 15px;
+	}
+}
+
+.navbar-brand img {
+    max-height: 50px;
+}
+
+.nav-item {
+    padding: 0px 10px 0px 10px; 
+}
+
+#register-page .errorlist {
+    list-style: none;
+    display: none;
+}
+
+#home-feed .post-col a, #profile-page .card a {
+    color: rgb(0, 89, 167);
+    font-weight: bold;
+}
+
+#home-feed .post-col a:hover, #profile-page .card a:hover {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#home-right-col .card {
+    background-color: #383c44;
+    color: rgb(240, 240, 240);
+    border-color: #f7f9fb;
+    border-radius: 6px;
+}
+
+#home-right-col .card a {
+    color: rgb(87, 163, 230);
+    font-weight: bold;
+}
+
+#home-right-col .card a:hover {
+    color: rgb(242, 245, 200);
+    text-decoration: none;
+}
+
+#profile-page .card .btn { 
+    color: rgb(46, 43, 43);
+}
+
+#profile-page .post-card .card-img-top {
+    width: 100%;
+    height: 35vh;
+    object-fit: cover;
+}
+
+.post-base .card-img-top {
+    width: 100%;
+    height: 80vh;
+    object-fit: contain;
+}
+
+.post-base .embed-responsive {
+    object-fit: cover;
+}
+
+.delete-post-btn, .update-post-btn {
+    color: white !important;
+}
+
+.post-base .post-update-page {
+    width: 80vw;
+}
+
+@media screen and (min-width: 1700px) {
+    .post-base .card-img-top{
+        width: 100%;
+        height: 70vh;
+        object-fit: contain;
+    }
+    
+}
+
+footer {
+    bottom: 0px;
+}

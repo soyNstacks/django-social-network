@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% load crispy_forms_tags %}
+ 
+{% block content %}
+
+<div id="landing-page" class="container-fluid text-center">
+    <h1 class="mt-2 mb-5">Welcome to Social Network!</h3>
+    <section class="h-100 w-100">
+        <div class="container h-100">
+            <div class="row justify-content-md-center h-100">
+                <div class="card-wrapper">
+                    <div class="brand">
+                        <img class="landing-logo" src="{% static 'images/site-logo.png' %}" alt="logo">
+                    </div>
+                    <div class="card fat">
+                        <div class="card-body">
+                            <h4 class="card-title">New here?</h4>
+                            <button class="btn btn-info">
+                                <a class="" href="{% url 'register' %}">Sign up</a>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">Already have an account?</h4>
+                            <button class="btn btn-info">
+                                <a class="" href="{% url 'login' %}">Log In</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

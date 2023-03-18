@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block content %}
+
+<div class="friends-page container-fluid">
+    <h3 class="my-3">Friends</h3>
+    </br>
+    {% if not friends_list %}
+    <div class="row justify-content-center mt-3">
+        <p><strong>0 friends.</strong></p>
+    </div>  
+    {% else %}
+    {% for friend in friends_list %}
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 mb-20 border-bottom">
+            <div class="row text-left" style="padding: 20px 10px 20px 10px;">
+                <div class="col-md-5"> 
+                    <img src="{{ friend.profile.profile_picture.url }}" alt="Profile image" class="rounded-circle img-fluid border-dark shadow-sm" style="width:9rem;height:9rem;"/>
+                </div>
+
+                <div class="col-md-5"> 
+                    <a href="{% url 'account:profile' friend.username %}" style="text-decoration: none">
+                        <p class="mb-2" style="font-size: 1.2em;">{{ friend.username }}</p>
+                    </a>
+                    <p>{{ friend.first_name }} {{ friend.last_name }}</p>
+                    <span class="text-left text-muted mb-4" style="font-size: 0.9em;">Last active: {{ friend.last_login }}</span>
+                </div>
+
+                {% if is_current_user and is_friend %}
+                    <a href="{% url 'chat:chatroom_list' %}" class="btn btn-primary my-2">Chat</a>
+                    <p class="mt-4 mb-1 btn btn-primary my-2">Chat</p>
+                {% endif %}
+            </div>
+        </div>  
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+
+{% endblock %}

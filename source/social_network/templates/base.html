@@ -1,0 +1,16 @@
+{% load bootstrap4 %}
+{% load static %}
+
+<!DOCTYPE html> 
+<html lang="en">
+        {% include "./navbar.html" %}   
+
+        <div class="container-fluid">
+            {% block content %}
+            {% endblock content %}
+        </div>
+
+        {% include 'footer.html' %}
+
+    </body>
+</html>

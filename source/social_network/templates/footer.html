@@ -1,0 +1,25 @@
+{% load bootstrap4 %}
+{% load static %}
+
+<br>
+<footer">
+    <div class="container-fluid bg-dark text-light mt-5 pt-5">
+        <div class="container py-5">
+            <div class="col">
+                <p class="row"><strong>Contact us</strong></p>
+                <p class="row">+650 9071241097</p>
+            </div>
+            <div class="col">
+                <p class="row"><strong>About us</strong></p>
+                <p class="row">This is a social network platform built for a Django-based coursework.</p>
+            </div>
+            <div class="col">
+                <p class="row"><strong>Developer API access</strong></p>
+                <a class="row" href="{% url 'api:api_list' %}">API Navigation</a>
+            </div>
+        </div>
+        <div class="container text-center py-3">
+            <p style="font-size:12px">Copyright © 2023 All Rights Reserved.</p>
+        </div>
+    </div> 
+</footer>  

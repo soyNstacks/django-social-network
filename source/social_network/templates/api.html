@@ -1,0 +1,37 @@
+{% load bootstrap4 %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    {% include "./header.html" %} 
+
+    <body>
+        {% if request.user.is_authenticated %}
+        <div class="container mt-5 mb-5">
+            <span class="mt-2 mb-4">You are currently logged in as: {{ request.user }}</span>
+
+            <div class="mt-4 list-group">
+                <a href="{% url 'api_schema' %}" class="list-group-item list-group-item-action">View API Schema</a>
+                <a href="{% url 'swagger-ui' %}" class="list-group-item list-group-item-action">View API with Swagger-UI</a>
+
+            </div>
+
+            <div class="mt-4 list-group">
+                <a href="{% url 'api:account_list_api' %}" class="list-group-item list-group-item-action">View all accounts [http://127.0.0.1:8000/api/profiles/]</a>
+                <a href="{% url 'api:create_account_api' %}" class="list-group-item list-group-item-action">Create a new account [http://127.0.0.1:8000/api/profile/]</a>
+                <a href="{% url 'api:account_profile_api' request.user.username %}" class="list-group-item list-group-item-action">View an individual's account [http://127.0.0.1:8000/api/profile/str:username]/</a>
+                
+                <a href="{% url 'api:post_list_api' request.user.username %}" class="list-group-item list-group-item-action">View an individual's posts [http://127.0.0.1:8000/api/posts/str:username]/</a>
+                
+                <a href="{% url 'api:friends_details_api' request.user.username %}" class="list-group-item list-group-item-action">View an individual's friends [http://127.0.0.1:8000/api/friends/str:username]</a>
+                
+                <a href="{% url 'home' %}" class="list-group-item list-group-item-action">Return Home</a>
+                    <a href="{% url 'logout' %}" class="list-group-item list-group-item-action">Logout</a>
+            </div>
+
+        </div>        
+        {% endif %}
+        {% include 'footer.html' %}
+
+    </body>
+</html>

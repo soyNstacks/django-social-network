@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="chatroomlist-page" class="container">
+    
+    <div class="search-room row text-left mt-5">
+        <div class="row input-group mr-1">
+            <input id="room-name-input" class="form-control" type="text" size="60" placeholder="Room name"><br>
+            <div class="input-group-append">
+                <input id="room-name-submit" class="mr-1 btn btn-primary" type="button" value="Connect">
+            </div> 
+        </div>
+        <span class="row text-muted small mt-1">New room will be automatically created if it does not exist</span>
+    </div>
+    <br> 
+    <div class="col-lg-9 col-sm-11 mb-5">
+        <div class="container overflow-auto">
+            <h4 class="row mt-2 mb-5">Chat Rooms</h4>
+            {% if rooms_messages is None %} 
+            <p>You haven't joined any chat rooms. Enter a new room name to create one. </p>
+
+            {% else %}
+            {% for room_name, online_members, message in rooms_messages %} 
+            <div class="row mt-3 text-left overflow-auto">
+                <div class="col border-bottom">
+                    <div class="row text-left mb-2" style="padding: 20px 10px 0px 10px;">
+                        <p style="font-size: 1.2em;">{{ room_name }}</p>
+                    </div>
+                    <div class="row text-left" style="padding: 0px 10px 0px 10px;">
+                        <p class="text-muted mb-1" style="font-size: 1.2em;">Online users&#58; {{ num_online_members }}</p>
+                    </div>
+                    <div class="row text-left" style="padding: 0px 10px 20px 10px;">
+                        
+                        {% if message.content is not None %}
+                            <p class="text-muted">&#91;{{ message.timestamp }}&#93;</p>
+                            <p class="ml-2"> {{ message.sender }}&#58; </p>
+                            <p class="ml-1">{{ message.content }}</p>
+                        {% else %}
+                            <p>No messages</p>
+                        {% endif %}
+                    </div> 
+                </div>
+                <div class="mt-5 col text-right">
+                    <input class="room-name-enter" type="image" src="{% static 'images/enter_chatroom.png' %}" name="method" value="{{ room_name }}"  style="width:35px; height: 35px;"/>
+                </div>
+            </div>
+        </div> 
+            {% endfor %} 
+            {% endif %}
+    </div>
+    <div class="px-2 mt-5 col-lg-5 col-sm-11">
+        <table class="table table-hover table-dark">
+            <thead>
+                <th>Friends</th>
+            </thead>
+            <tbody>
+            {% for friend in friends_list %}
+                {% if friend.online %} 
+                <tr>
+                    <td>{{ friend }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>
+                        {{ friend }} 
+                        <span style="font-style: italic;"></span>
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    
+    </div>
+</div>    
+
+ 
+<script src="{% static 'scripts/chat/chatroomList.js' %}"></script>
+
+
+{% endblock %} 

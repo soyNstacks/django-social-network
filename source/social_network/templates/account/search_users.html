@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block content %}
+
+<div id="search-results" class="container">
+    <h3 class="my-3">Search Results</h3>
+    </br>
+    {% if not user_list and not user_count %}
+    <div class="row justify-content-center">
+        <p><strong>User not found.</strong></p>        
+    </div>
+    {% else %}
+    <p class="text-muted">Found {{ user_count }} existing user</p>
+    {% for user in user_list %}
+
+    <div class="row w-100 justify-content-center mt-3">
+        <div class="col-md-11 col-sm-12 mb-20 border-bottom">
+            <div class="row text-left" style="padding: 20px 10px 20px 10px;">
+                <div class="col-md-5"> 
+                    <a href="{% url 'account:profile' user.username %}" style="text-decoration: none"><img src="{{ user.profile.image_url }}" alt="Profile picture" class="rounded-circle img-fluid border-dark shadow-sm" style="width:7rem;height:7rem;"/></a>
+                </div>
+                <div class="col-md-5"> 
+                    <a href="{% url 'account:profile' user.username %}" style="text-decoration: none">
+                        <p class="mt-2 mb-1" style="font-size: 1.2em;">&#64;{{ user.username }}</p>
+                    </a>
+                    <p class="mb-2">{{ user.first_name }} {{ user.last_name }}</p>
+                    {% if user.last_login != None %}
+                    <span class="text-left text-muted mb-4" style="font-size: 0.9em;">Last seen: {{ user.last_login }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div> 
+    {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block content %}
+  
+<div id="home-feed" class="mt-5 mb-5 ml-1 mr-1"> 
+    <div class="row d-flex align-content-center">
+        <div class="col-lg-8 col-md-8 col-sm-12">
+            <div class="post-col px-0">
+                <div>
+
+                    {% for message in messages %}
+                    <div class="alert alert-success">
+                        <a class="close" href="#" data-dismiss="alert">x</a>
+                           {{ message }}
+                    </div>
+                
+                {% endfor %}
+                    <div class="card shadow-0 mb-4 mt-2">
+                        <div class="card-body border-bottom pb-2">
+                            <div class="d-flex">
+                                <div class="d-flex align-items-center w-100 ps-3">
+                                    <form class="w-100" method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <span class="w-100">{{ form.body_text | as_crispy_field }}</span> 
+                                        <div id="upload-file">
+                                            <span id="upload-media">{{ form.media | as_crispy_field }}</span>
+                                        </div>
+                                        <button class="btn btn-success mt-3">Post</button> 
+                                        {% if form.errors or form.non_field_errors %}
+                                            {{ form | as_crispy_errors }}
+                                        {% endif %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div>
+                {% for post in posts %}
+                    {% include "social_network/post_base.html" %}
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="home-right-col" class="w-100 h-100 col-lg-2 col-md-4 col-sm-12">
+        <div class="text-left">
+            <div class="">
+                <div class="card w-100 shadow-0 mb-4 mt-2">
+                    <div class="card-body border-bottom pb-2">
+                        <h5 class="card-title mb-4">My Profile</h5>
+                        <div class="row d-flex justify-content-left text-left">
+                            <div class="d-flex align-items-left w-100 ps-3">
+                                <div class="px-2"> 
+                                    {% if user.profile.profile_picture %}
+                                    <div class="text-left card-image">
+                                        <img src="{{ user.profile.profile_picture.url }}" class="card-img-top rounded-circle img-fluid border-dark shadow-sm" alt="User profile picture" style="width:60px;height:60px;object-fit:cover;"/>
+                                    </div>
+                                    {% endif %} 
+                                
+                                    <p class="mt-4 mb-1 field-heading">Email: </p>
+                                    <h5>{{ user.email }}</h5>
+                                
+                                    <p class="mt-4 mb-1 field-heading">Username: </p> 
+                                    <h5>{{ user.username }}</h5>
+                                    
+                                    <p class="mt-4 mb-1 field-heading">First Name: </p>
+                                    <h5>{{ user.first_name }}</h5>
+                                    
+                                    <p class="mt-4 mb-1 field-heading">Last Name: </p>
+                                    <h5>{{ user.last_name }}</h5>
+                                    
+                                    <p class="mt-4 mb-1 field-heading">Date of Birth: </p>
+                                    <h5>{{ user.profile.date_of_birth }}</h5>
+                                    <br>
+                                    <a href="{% url 'account:profile' user.username %}"><span class="mt-5">View more</span></a>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if friends != None %}
+                    
+                    <div class="card w-100 shadow-0 mb-4 mt-1">
+                        <div class="card-body">
+                            <div class="row d-flex justify-content-left text-left">
+                                {% for friend in friends %}
+                                <div class="border-bottom mt-2 mb-2 d-flex align-items-left w-100 h-100">
+                                        {% if friend.profile.profile_picture %}
+                                        <div class="mb-2 col text-left card-image">
+                                            <img src="{{ friend.profile.image_url }}" class="card-img-top rounded-circle img-fluid border-dark shadow-sm" alt="User profile picture" style="width:40px;height:40px;object-fit:cover;"/>
+                                        </div>
+                                        {% endif %} 
+                                        <div class="col text-left">
+                                            <a href="{% url 'account:profile' friend.username %}">
+                                                <h5 class="small">{{ friend.username }}</h5>
+                                            </a>
+                                        </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                {% endif %} 
+            </div>
+        </div>
+        
+
+    </div>
+</div>
+
+{% endblock %}

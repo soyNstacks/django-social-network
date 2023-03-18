@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block content %}
+
+<div id="profile-page" class="container-fluid"> 
+    
+    <div class="row d-flex p-3 justify-content-center">
+        <div class="card row w-100 px-2  mt-2 mb-2 col-lg-9 col-md-9 col-sm-11">
+            <div class="px-2">
+                {% if user_to_get.profile.profile_picture %} 
+                <div class="mt-4 card-image text-center" >
+                    <img src="{{ user_to_get.profile.image_url }}" class="card-img-top rounded-circle img-fluid border-dark shadow-md" alt="User profile picture" style="width:350px;height:350px;object-fit:cover;"/>
+                </div>
+                {% endif %}
+                <br>
+                <div class=" card-body profile-fields">
+                    <p class="mt-4 mb-1 field-heading">Email: </p>
+                    <h5>{{ user_to_get.email }}</h5>
+                
+                    <p class="mt-4 mb-1 field-heading">Username: </p>
+                    <h5>{{ user_to_get.username }}</h5>
+                    
+                    <p class="mt-4 mb-1 field-heading">First Name: </p>
+                    <h5>{{ user_to_get.first_name }}</h5>
+                    
+                    <p class="mt-4 mb-1 field-heading">Last Name: </p>
+                    <h5>{{ user_to_get.last_name }}</h5>
+                    
+                    <p class="mt-4 mb-1 field-heading">Date of Birth: </p>
+                    <h5>{{ user_to_get.profile.date_of_birth }}</h5>
+                        
+                    <p class="mt-4 mb-1 field-heading">Friends: </p>
+                    {% if is_current_user or is_friend %}
+                    <a href="{% url 'friend:friend_list' user_to_get.username %}"><h5>{{ num_friends }}</h5></a>
+                    {% else %}
+                    <h5>{{ num_friends }}</h5>
+                    {% endif %} 
+                    
+                    {% if not is_current_user and not is_friend %}
+                    {% if request_status == 0 or not request_status%}
+                        <button class="btn btn-primary btn-sm" onclick='sendFriendRequest("{{ user_to_get.username }}", sendRequestURl, csrftoken)'>Send Friend Request</button>
+                    {% endif %}
+                    {% if request_status == 2 %}
+                        <p>Pending friend request:</p>
+                        <div class="d-flex">
+                            <button class="btn btn-primary btn-sm" onclick='acceptFriendRequest("{{ friend_request_id }}", acceptanceURl, csrftoken)'>Accept</button>
+                            <button class="btn btn-danger btn-sm mx-3" onclick='rejectFriendRequest("{{ friend_request_id }}", rejectionURl, csrftoken)'>Decline</button>
+                        </div>
+                    {% endif %}
+                    {% if request_status == 1 %}
+                        <div class="d-flex">
+                            <button  class="btn btn-danger btn-sm" onclick='cancelFriendRequest("{{ friend_request_id }}", cancellationURl, csrftoken)'>Cancel Friend Request</button>
+                        </div>
+                    {% endif %}
+                    {% endif %} 
+                    
+                    <!-- if is currently logged user -->   
+                    {% if is_current_user %}
+                    <a href="{% url 'friend:friend_request_list' user_to_get.username %}"><p class="mt-4 mb-1 field-heading">View friend requests</p></a>
+                    <a  class="mt-4 btn btn btn-outline-info" href="{% url 'account:profile-edit' user_to_get.username %}">Edit Profile</a>
+                    <a class="mt-4 btn btn-outline-danger" href="{% url 'account:password-change' %}">Change password</a>
+                    {% endif %} 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <br>
+    <div class="d-flex p-3 justify-content-center">
+        <div class="w-100 col-lg-9 col-md-9 col-sm-11">
+
+                <div class="card-deck">
+                    {% for post in posts %}
+                        <div class="post-card card border-bottom pb-2">
+                            {% if post.media_url %}
+                                <div class="card-body pb-2">
+                                    <div class="border mb-1">
+                                        {% if post.media_type == 'image' %}
+                                        <a href="{% url 'post_detail' post.pk %}">
+                                            <img src="{{ post.media_url  }}" alt="Post media" class="card-img-top mx-auto img-fluid"/>  
+                                        </a>  
+                                    </div>
+                                    {% else %}
+                                    <div class="ratio ratio-16x9 mb-3 embed-responsive embed-responsive-16by9">
+                                        <video class="embed-responsive-item" controls>
+                                            <source src="{{ post.media_url  }}" alt="Post media" type="video/mp4">
+                                        </video>
+                                    </div>
+                                    <a class="float-right" href="{% url 'post_detail' post.pk %}">View video</a>
+                                    {% endif %}
+                                    <a href="{% url 'account:profile' user.username %}">
+                                        <h6 class="">
+                                            <span class="font-weight-bold">@{{ post.author }}</span>
+                                        </h6>
+                                    </a>
+                                    <p class="text-body mb-4">{{ post.body_text }}</p>
+                                    <p class="small text-muted card-footer" style="line-height: 1.2;">{{ post.created_date }}</p>
+                                </div>
+                    
+                            {% else %}
+                            <div class="card-body pb-2">
+                                <a href="{% url 'account:profile' user.username %}">
+                                    <h6 class="card-text">
+                                        <span class="font-weight-bold">@{{ post.author }}</span>
+                                    </h6>
+                                </a>
+                                <p class="card-text mb-4">{{ post.body_text }}</p>
+                                <p class="small text-muted card-footer" style="line-height: 1.2;">{{ post.created_date }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                
+        </div>
+    </div>
+</div>
+
+<script>
+    var sendRequestURl = "{% url 'friend:send_friend_request' %}";
+    var acceptanceURl = "{% url 'friend:accept_friend_request' %}";
+    var rejectionURl = "{% url 'friend:reject_friend_request' %}";
+    var cancellationURl = "{% url 'friend:cancel_friend_request' %}";
+
+    var csrftoken = "{{csrf_token}}";
+</script>
+    
+<script src="{% static 'scripts/friend/friendRequest.js' %}"></script>
+
+{% endblock %}

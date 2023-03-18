@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+ 
+{% block content %}
+
+<div id="login-page" class="container-fluid"> 
+    <section class="h-100">
+        <div class="container h-100">
+            <div class="row justify-content-md-center h-100">
+                <div class="card-wrapper">
+                    <div class="card fat">
+                        <div class="card-body">
+                            <h4 class="card-title">Login</h4>
+                            <form id="login_form" class="mb-2" method="post"> 
+                                {% csrf_token %}
+                                {{ form | crispy }}
+                    
+                                <input type="submit" class="btn btn-primary" action="{% url 'home' %}" value="Login" />
+                                <div class="mt-5">
+									<span class="ml-1 row">Don't have an account? </span>
+                                    <a class="ml-1 row" href="{% url 'register' %}">Sign up here</a>
+								</div>
+                            </form> 
+                            <br>
+                            <p><strong>-- OR --</strong></p>
+                            <a href="{% url 'social-oauth:begin' 'google-oauth2' %}">Login with Google</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}    
