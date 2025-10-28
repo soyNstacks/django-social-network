@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-wn#522qd@$d_76vpbmnf(b7wd#k55%nug1^g$1_a6=u(pa9^nt'
+SECRET_KEY = '<REDACTED>'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -223,8 +223,8 @@ SESSION_SAVE_EVERY_REQUEST = True # Saves session to database and updates timeou
 ACCOUNT_SIGNUP_FORM_CLASS = 'account.forms.'
 
 # Set up Google oauth2 credentials for social-oauth
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '225323846404-f34c3lc2tb91t4t2dekc9lpfjngj7s5q.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '<REDACTED>'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '<REDACTED>'
 
 # # domain white list; currently do not need one
 # SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = ['abc.com']
